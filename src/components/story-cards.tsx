@@ -28,24 +28,23 @@ export default function StoryCards() {
     const user = {
         avatar: "https://via.placeholder.com/48",
         name: "John Doe",
-      };
+    };
 
     return (
         <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:@xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-            <Card>
+            <Card className="@container/card">
                 <CardHeader>
                     <CardTitle className="text-lg font-bold tabular-nums">
                         {story}
                     </CardTitle>
-                    <div className='flex items-center'>
-                        <Badge variant="default">
-                            {storyID}
-                        </Badge>
-                        <CardDescription className='pl-2 text-xs'>{time}</CardDescription>
-                    </div>
-                    <CardDescription>{description}</CardDescription>
-        
                 </CardHeader>
+                <div className='flex items-center px-6'>
+                    <Badge variant="default">
+                        {storyID}
+                    </Badge>
+                    <CardDescription className='pl-2 text-xs'>{time}</CardDescription>
+                </div>
+                <CardDescription className='px-6'>{description}</CardDescription>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm">
                     <div className="text-muted-foreground flex items-center justify-between w-full">
                         <Prioritybadge variant="medium">{priority}</Prioritybadge>
