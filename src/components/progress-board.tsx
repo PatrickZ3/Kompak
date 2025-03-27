@@ -11,9 +11,10 @@ const userStories = [
     id: 1,
     story: "UserStory 1",
     storyID: "US-101",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad ",
     status: "To Do",
     time: new Date(2025, 2, 25),
+    finishedTime: new Date(2025, 2, 25),
     priority: "Medium",
     user: {
       avatar: "/avatars/shadcn.jpg",
@@ -27,6 +28,7 @@ const userStories = [
     description: "This is the second user story.",
     status: "In Progress",
     time: new Date(2025, 2, 26),
+    finishedTime: new Date(2025, 2, 26),
     priority: "High",
     user: {
       avatar: "/avatars/shadcn.jpg",
@@ -40,6 +42,7 @@ const userStories = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     status: "Done",
     time: new Date(2025, 2, 27),
+    finishedTime: new Date(2025, 2, 27),
     priority: "Low",
     user: {
       avatar: "/avatars/shadcn.jpg",

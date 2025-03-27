@@ -20,7 +20,8 @@ interface Story {
     storyID: string    
     description: string 
     status: string      
-    time: Date       
+    time: Date  
+    finishedTime: Date     
     priority: string   
     user: {
         avatar: string    
@@ -67,7 +68,7 @@ export default function StoryCards({ stories }: StoryCardsProps) {
                         </CardDescription>
                     </div>
 
-                    <CardDescription className="px-6 h-9 overflow-hidden text-ellipsis whitespace-nowrap">{story.description}</CardDescription>
+                    <CardDescription className="px-6 h-8 truncate-2-lines">{story.description}</CardDescription>
 
                     <CardFooter className="flex-col items-start gap-1.5 text-sm">
                         <div className="text-muted-foreground flex items-center justify-between w-full">
