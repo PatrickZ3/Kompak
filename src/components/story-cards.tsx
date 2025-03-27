@@ -13,19 +13,21 @@ import {
 } from "@/components/ui/card"
 
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
+import { useDraggable } from "@dnd-kit/core";
 
-interface Story {
+
+export interface Story {
     id: number
-    story: string       
-    storyID: string    
-    description: string 
-    status: string      
-    time: Date  
-    finishedTime: Date     
-    priority: string   
+    story: string
+    storyID: string
+    description: string
+    status: string
+    time: Date
+    finishedTime: Date
+    priority: string
     user: {
-        avatar: string    
-        name: string      
+        avatar: string
+        name: string
     }
 }
 
@@ -33,27 +35,45 @@ interface StoryCardsProps {
     stories: Story[];
 }
 
+function DraggableCard({ story, children }: { story: Story, children: React.ReactNode }) {
+    // use a unique id like "story-<id>" for each draggable card
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: `story-${story.id}`,
+    });
 
-export default function StoryCards({ stories }: StoryCardsProps) {
-    function formatTimeLabel(story: Story) {
-        if (story.status === "Done") {
-          return (
+    // Optionally apply transformation styles if needed
+    const style = transform ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`
+    } : undefined;
+
+    return (
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+            {children}
+        </div>
+    );
+}
+function formatTimeLabel(story: Story) {
+    if (story.status === "Done") {
+        return (
             "Finished " +
             story.time.toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
+                month: "long",
+                day: "numeric",
             })
-          )
-        }
-      
-        return story.time.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-        })
-      }
+        )
+    }
+
+    return story.time.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+    })
+}
+
+export default function StoryCards({ stories }: StoryCardsProps) {
     return (
         <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:@xl/main:grid-cols-2 @5xl/main:grid-cols-4">
             {stories.map((story) => (
+                <DraggableCard key={story.id} story={story}>
                 <Card className="@container/card" data-slot="card" key={story.id}>
                     <CardHeader>
                         <CardTitle className="text-lg font-bold tabular-nums">
@@ -64,7 +84,7 @@ export default function StoryCards({ stories }: StoryCardsProps) {
                     <div className="flex items-center px-6">
                         <Badge variant="default">{story.storyID}</Badge>
                         <CardDescription className="pl-2 text-xs">
-                        {formatTimeLabel(story)}
+                            {formatTimeLabel(story)}
                         </CardDescription>
                     </div>
 
@@ -82,6 +102,7 @@ export default function StoryCards({ stories }: StoryCardsProps) {
                         </div>
                     </CardFooter>
                 </Card>
+                </DraggableCard>
             ))}
         </div>
     )
