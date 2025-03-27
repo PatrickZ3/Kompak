@@ -13,12 +13,16 @@ import {
 
 export function NavMain({
   items,
+  activeView,
+  onNavigate,
 }: {
   items: {
     title: string
     url: string
     icon?: Icon
   }[]
+  activeView?: string
+  onNavigate?: (viewName: string) => void
 }) {
   return (
     <SidebarGroup className="pt-0">
@@ -36,7 +40,7 @@ export function NavMain({
 
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton className="text-sm font-medium cursor-pointer" tooltip={item.title}>
+              <SidebarMenuButton className="text-sm font-medium cursor-pointer" tooltip={item.title} isActive={activeView === item.title} onClick={() => onNavigate?.(item.title)}>
                 {item.icon && <item.icon className="mr-2 !h-5 !w-5" />}
                 <span>{item.title}</span>
               </SidebarMenuButton>

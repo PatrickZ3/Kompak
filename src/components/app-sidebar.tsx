@@ -135,7 +135,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ activeView, onNavigate, ...props }: React.ComponentProps<typeof Sidebar> & {activeView?: string ; onNavigate?: (viewName: string) => void}) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -146,8 +146,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-              <div className="rounded-sm bg-primary p-1 text-primary-foreground">
-                <IconFolder  className="!size-4" />
+                <div className="rounded-sm bg-primary p-1 text-primary-foreground">
+                  <IconFolder className="!size-4" />
                 </div>
                 <span className="text-sm font-extrabold">Project Alpha</span>
               </a>
@@ -156,7 +156,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} activeView={activeView} onNavigate={onNavigate}/>
         <NavSecondary items={data.navSecondary} className="mt-auto " />
       </SidebarContent>
       <SidebarFooter>

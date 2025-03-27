@@ -7,7 +7,6 @@ export default function ProgressColumn() {
     return (
         <div className="mx-4 mb-4 mt-0 h-[97%]">
             <ProgressBoard columns={columnTitles} />
-            
         </div>
     )
 }
