@@ -1,8 +1,9 @@
 import React from "react";
 import StoryCards from "./story-cards";
+import { IconPlus } from "@tabler/icons-react";
 
 interface ProgressBoardProps {
-  columns: string[]; 
+  columns: string[];
 }
 
 export default function ProgressBoard({ columns }: ProgressBoardProps) {
@@ -10,14 +11,11 @@ export default function ProgressBoard({ columns }: ProgressBoardProps) {
     <div className="flex space-x-4 h-full">
       {columns.map((colTitle) => (
         <div key={colTitle} className="bg-sidebar rounded px-4 py-2 h-full w-full">
-          <h2 className="text-secondary-foreground font-bold mb-2">{colTitle}</h2>
-          {/* 
-            You can render whatever you want inside each column:
-            - <StoryCards />
-            - A button to add new stories
-            - etc.
-          */}
-            <StoryCards />
+          <div className="flex items-center justify-between w-full mb-2">
+            <h2 className="text-secondary-foreground font-bold ">{colTitle}</h2>
+            <IconPlus className="text-secondary-foreground w-5 h-5 cursor-pointer"/>
+          </div>
+          <StoryCards />
         </div>
       ))}
     </div>
