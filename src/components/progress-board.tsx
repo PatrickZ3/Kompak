@@ -30,12 +30,25 @@ function DroppableColumn({
 }
 
 export default function ProgressBoard({ columns, userStories }: ProgressBoardProps) {
+  const priorityMap: Record<string, number> = {
+    High: 1,
+    Medium: 2,
+    Low: 3,
+  };
   return (
     <div className="w-full flex space-x-4 h-full">
       {columns.map((colTitle) => {
-        const storiesInThisColumn = userStories.filter(
+        let storiesInThisColumn = userStories.filter(
           (story) => story.status === colTitle
         );
+
+        storiesInThisColumn = storiesInThisColumn.sort((a, b) => {
+
+          if (priorityMap[a.priority] < priorityMap[b.priority]) return -1;
+          if (priorityMap[a.priority] > priorityMap[b.priority]) return 1;
+
+          return a.id - b.id; 
+        });
 
         return (
           <DroppableColumn
