@@ -1,13 +1,16 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/ModeToggle";
 import ProgressColumn from './progress-column';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { Story } from "./story-cards";
-
-
+import Image from 'next/image';
 
 export default function Board() {
+
+    const { theme } = useTheme();
+    const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png";
 
     const [userStories, setUserStories] = useState<Story[]>([
         {
@@ -112,7 +115,8 @@ export default function Board() {
 
     return (
         <div className="flex flex-col overflow-hidden">
-            <div className="flex justify-end p-4">
+            <div className="flex justify-between items-center px-4 py-2 text-secondary-foreground font-bold">
+                <Image src={logoSrc} alt="Kompak Logo" width={120} height={60} />
                 <ModeToggle />
             </div>
             <div className=" overflow-x-hidden">
