@@ -2,9 +2,13 @@
 import { useState } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import Board from "@/components/board";
 import Timeline from "@/components/time-line";
 import Team from "@/components/team";
+import dynamic from "next/dynamic"
+
+const Board = dynamic(() => import("@/components/board"), {
+  ssr: false,
+})
 
 export default function Home() {
 
