@@ -54,7 +54,7 @@ export default function ProgressBoard({ columns, userStories }: ProgressBoardPro
           <DroppableColumn
             key={colTitle}
             id={colTitle}
-            className="bg-sidebar rounded px-4 py-2 w-full min-h-[88vh]"
+            className="bg-sidebar rounded px-4 py-2 w-full min-h-[92vh]"
           >
             <div className="flex items-center justify-between w-full mb-2">
               <h2 className="text-secondary-foreground font-bold">{colTitle}</h2>
