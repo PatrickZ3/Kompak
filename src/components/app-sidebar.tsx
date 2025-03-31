@@ -135,7 +135,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ activeView, onNavigate, ...props }: React.ComponentProps<typeof Sidebar> & {activeView?: string ; onNavigate?: (viewName: string) => void}) {
+export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Project",...props }: React.ComponentProps<typeof Sidebar> & {activeView?: string ; onNavigate?: (viewName: string) => void; boardTitle?: string;}) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -149,7 +149,7 @@ export function AppSidebar({ activeView, onNavigate, ...props }: React.Component
                 <div className="rounded-sm bg-primary p-1 text-primary-foreground">
                   <IconFolder className="!size-4" />
                 </div>
-                <span className="text-sm font-extrabold">Project Alpha</span>
+                <span className="text-sm font-extrabold">{boardTitle}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
