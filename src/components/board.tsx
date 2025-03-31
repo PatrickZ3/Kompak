@@ -43,33 +43,36 @@ export default function Board() {
             </div>
         </div>
     )
-    
+
     function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
         if (!over) return;
-      
+
         const draggedIdString = String(active.id);
         const storyId = parseInt(draggedIdString.replace("story-", ""), 10);
         const newStatus = String(over.id);
-      
-        setUserStories((prevStories) =>
-          prevStories.map((s) =>
-            s.id === storyId ? { ...s, status: newStatus } : s
-          )
-        );
-      
-        // 🛠 Persist to DB
-        fetch("/api/update-status", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            taskId: storyId,
-            newStatus, // "To Do", "In Progress", or "Done"
-          }),
-        }).catch((err) => console.error("Failed to update task status:", err));
-      }
-      
 
+        setUserStories((prevStories) =>
+            prevStories.map((s) =>
+                s.id === storyId ? { ...s, status: newStatus } : s
+            )
+        );
+
+        // 🔁 Update the backend
+        fetch("/api/update-status", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ taskId: storyId, newStatus }),
+        })
+            .then((res) => res.json())
+            .then(() => {
+                // ✅ Re-fetch updated tasks to get the new dateFinish
+                fetch("/api/board")
+                    .then((res) => res.json())
+                    .then((data) => setUserStories(data.tasks));
+            })
+            .catch((err) => console.error("Update failed", err));
+    }
 }

@@ -16,20 +16,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { taskId, newStatus } = req.body;
-
     const prismaStatus = STATUS_MAP[newStatus];
+
     if (!prismaStatus) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
+    const updateData: any = {
+      status: prismaStatus,
+    };
+
+    if (prismaStatus === "DONE") {
+      updateData.dateFinish = new Date(); 
+    } else {
+      updateData.dateFinish = null; 
+    }
+
     await prisma.task.update({
       where: { id: taskId },
-      data: {
-        status: prismaStatus,
-      },
+      data: updateData,
     });
 
-    res.status(200).json({ message: "Status updated" });
+    res.status(200).json({ message: "Status + finish date updated" });
   } catch (error) {
     console.error("Error updating status:", error);
     res.status(500).json({ message: "Something went wrong" });

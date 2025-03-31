@@ -60,22 +60,24 @@ function DraggableCard({ story, children }: { story: Story, children: React.Reac
         </div>
     );
 }
-function formatTimeLabel(story: Story) {
-    if (story.status === "Done") {
-        return (
-            "Finished " +
-            story.time.toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-            })
-        )
-    }
 
-    return story.time.toLocaleDateString("en-US", {
+function formatTimeLabel(story: Story) {
+    const rawDate =
+      story.status === "Done" && story.finishedTime
+        ? new Date(story.finishedTime)
+        : new Date(story.time);
+  
+    const label = story.status === "Done" ? "Finished " : "";
+  
+    return (
+      label +
+      rawDate.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
-    })
-}
+      })
+    );
+  }
+  
 
 export default function StoryCards({ stories }: StoryCardsProps) {
     return (
