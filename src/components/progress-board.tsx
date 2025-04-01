@@ -44,10 +44,14 @@ export default function ProgressBoard({ columns, userStories }: ProgressBoardPro
 
         storiesInThisColumn = storiesInThisColumn.sort((a, b) => {
 
-          if (priorityMap[a.priority] < priorityMap[b.priority]) return -1;
-          if (priorityMap[a.priority] > priorityMap[b.priority]) return 1;
+          const aPriority = priorityMap[a.priority];
+          const bPriority = priorityMap[b.priority];
 
-          return a.id - b.id; 
+          if (aPriority < bPriority) return -1;
+          if (aPriority > bPriority) return 1;
+
+          return new Date(a.time).getTime() - new Date(b.time).getTime();
+
         });
 
         return (
@@ -63,7 +67,7 @@ export default function ProgressBoard({ columns, userStories }: ProgressBoardPro
             <StoryCards stories={storiesInThisColumn} />
           </DroppableColumn>
         );
-      })} 
+      })}
     </div>
   );
 }
