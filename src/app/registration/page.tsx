@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
 import { ModeToggle } from "@/components/ModeToggle"
 
+
 export default function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -29,11 +30,28 @@ export default function RegistrationPage() {
     setMounted(true)
   }, [])
 
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  
+  const isStrongPassword = (password: string) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password)
+  
+
   const handleRegister = async () => {
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match")
-      return
-    }
+    if (!isValidEmail(form.email)) {
+        alert("Invalid email format")
+        return
+      }
+    
+      if (!isStrongPassword(form.password)) {
+        alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.")
+        return
+      }
+    
+      if (form.password !== form.confirmPassword) {
+        alert("Passwords do not match")
+        return
+      }
 
     try {
       const res = await fetch("/api/register", {
