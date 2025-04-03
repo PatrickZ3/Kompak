@@ -10,6 +10,7 @@ async function main() {
     create: {
       firstName: 'Patrick',
       lastName: 'Lay',
+      email: 'test@gmail.com',
       password: 'contoh',
       verified: true,
     },

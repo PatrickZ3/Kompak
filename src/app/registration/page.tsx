@@ -17,9 +17,51 @@ export default function RegistrationPage() {
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
 
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
+
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const handleRegister = async () => {
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match")
+      return
+    }
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          password: form.password,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        alert("Registration successful!")
+        // window.location.href = "/login" // optional redirect
+      } else {
+        alert(data.error || "Something went wrong")
+      }
+    } catch (error) {
+      alert("Something went wrong")
+      console.error(error)
+    }
+  }
 
   if (!mounted) return null
   const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png"
@@ -54,7 +96,9 @@ export default function RegistrationPage() {
                     id="firstName"
                     type="text"
                     placeholder="First Name"
-                    className="border-border bg-input text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                    value={form.firstName}
+                    onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                    className="border-border bg-input text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                   />
                 </div>
                 <div className="space-y-3.5">
@@ -65,7 +109,9 @@ export default function RegistrationPage() {
                     id="lastName"
                     type="text"
                     placeholder="Last Name"
-                    className="border-border bg-input text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                    value={form.lastName}
+                    onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                    className="border-border bg-input text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                   />
                 </div>
               </div>
@@ -78,7 +124,9 @@ export default function RegistrationPage() {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  className="border-border bg-input text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="border-border bg-input text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                 />
               </div>
 
@@ -91,7 +139,9 @@ export default function RegistrationPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="border-border bg-input pr-10 text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className="border-border bg-input pr-10 text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                   />
                   <button
                     type="button"
@@ -112,7 +162,9 @@ export default function RegistrationPage() {
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="border-border bg-input pr-10 text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                    value={form.confirmPassword}
+                    onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+                    className="border-border bg-input pr-10 text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                   />
                   <button
                     type="button"
@@ -144,7 +196,7 @@ export default function RegistrationPage() {
                 </label>
               </div>
 
-              <Button className="w-full bg-red-500 text-primary-foreground hover:bg-red-600">
+              <Button onClick={handleRegister} className="w-full bg-red-500 text-primary-foreground hover:bg-red-600">
                 <UserPlus className="mr-2 h-4 w-4" />
                 Create Account
               </Button>
@@ -192,7 +244,7 @@ export default function RegistrationPage() {
 
             <div className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link href="#" className="font-medium text-secondary-foreground hover:underline">
+              <Link href="/login" className="font-medium text-secondary-foreground hover:underline">
                 Sign in
               </Link>
             </div>
