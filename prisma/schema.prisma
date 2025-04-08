@@ -17,7 +17,7 @@ model User {
   id                Int     @id @default(autoincrement())
   firstName         String
   lastName          String
-  email             String
+  email             String  @unique
   verified          Boolean @default(false)
   verificationToken String?
   password          String

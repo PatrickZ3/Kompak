@@ -33,7 +33,6 @@ export default async function handler(req: NextApiRequest,
       },
     });
 
-    // ⬇️ SEND EMAIL HERE
     await sendVerificationEmail(email, verificationToken);
 
     return res.status(201).json({ message: "User created", user });

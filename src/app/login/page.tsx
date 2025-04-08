@@ -1,49 +1,74 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Eye, EyeOff, LogIn } from "lucide-react"
-import { useTheme, ThemeProvider } from "next-themes";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import Image from 'next/image';
+import { FormEvent, useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { Eye, EyeOff, LogIn } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 
 export default function LoginPage() {
-    const [showPassword, setShowPassword] = useState(false)
-    const [mounted, setMounted] = useState(false)
-    const { theme } = useTheme()
+    const [showPassword, setShowPassword] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    const { theme } = useTheme();
+    const router = useRouter();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        setMounted(true)
-    }, [])
+        setMounted(true);
+    }, []);
 
-    if (!mounted) return null
+    if (!mounted) return null;
+
     const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png";
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const result = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+        });
+
+        console.log("Sign in result:", result);
+
+        if (result?.error) {
+            setErrorMessage("Invalid email or password.");
+        } else {
+            router.push("/board");
+        }
+    };
 
     return (
         <div className="flex min-h-screen bg-background">
-            {/* Main content */}
             <div className="flex flex-1 flex-col">
-                {/* Header */}
-                <header className="flex h-14 items-center justify-between  border-b border-border bg-card px-4">
+                <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4">
                     <div className="flex items-center">
                         <Image src={logoSrc} alt="Kompak Logo" width={120} height={60} />
                     </div>
                     <ModeToggle />
                 </header>
-
-                {/* Login form */}
                 <div className="flex flex-1 items-center justify-center bg-background p-4">
                     <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-6">
                         <div className="space-y-2 text-center">
-                            <h1 className="text-2xl font-bold text-secondary-foreground">Login to Kompak</h1>
-                            <p className="text-sm text-muted-foreground">Enter your credentials to access your account</p>
+                            <h1 className="text-2xl font-bold text-secondary-foreground">
+                                Login to Kompak
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                Enter your credentials to access your account
+                            </p>
                         </div>
-
-                        <div className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="email" className="text-primary-foreground">
                                     Email
@@ -52,10 +77,12 @@ export default function LoginPage() {
                                     id="email"
                                     type="email"
                                     placeholder="m@example.com"
-                                    className="border-border bg-input text-primary-foreground  placeholder:text-muted-foreground focus-visible:ring-ring"
+                                    className="border-border bg-input text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
                                 />
                             </div>
-
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <Label htmlFor="password" className="text-primary-foreground">
@@ -70,18 +97,20 @@ export default function LoginPage() {
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         placeholder="••••••••"
-                                        className="border-border bg-input pr-10 text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                                        className="border-border bg-input pr-10 text-secondary-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary-foreground"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-secondary-foreground"
                                     >
-                                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
                                     </button>
                                 </div>
                             </div>
-
                             <div className="flex items-center space-x-2">
                                 <Checkbox
                                     id="remember"
@@ -94,12 +123,11 @@ export default function LoginPage() {
                                     Remember me
                                 </label>
                             </div>
-
-                            <Button className="w-full bg-red-500 text-primary-foreground hover:bg-red-600">
+                            {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+                            <Button type="submit" className="w-full bg-red-500 text-primary-foreground hover:bg-red-600">
                                 <LogIn className="mr-2 h-4 w-4" />
                                 Sign In
                             </Button>
-
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
                                     <span className="w-full border-t border-border"></span>
@@ -108,26 +136,13 @@ export default function LoginPage() {
                                     <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
                                 </div>
                             </div>
-
                             <div className="grid grid-cols-2 gap-4">
                                 <Button variant="outline" className="border-border bg-input text-secondary-foreground hover:bg-muted">
                                     <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                                        <path
-                                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                            fill="#4285F4"
-                                        />
-                                        <path
-                                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                            fill="#34A853"
-                                        />
-                                        <path
-                                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                            fill="#FBBC05"
-                                        />
-                                        <path
-                                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                            fill="#EA4335"
-                                        />
+                                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                                         <path d="M1 1h22v22H1z" fill="none" />
                                     </svg>
                                     Google
@@ -139,8 +154,7 @@ export default function LoginPage() {
                                     GitHub
                                 </Button>
                             </div>
-                        </div>
-
+                        </form>
                         <div className="text-center text-sm text-muted-foreground">
                             Don&apos;t have an account?{" "}
                             <Link href="/registration" className="font-medium text-secondary-foreground hover:underline">
@@ -151,6 +165,5 @@ export default function LoginPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
-
