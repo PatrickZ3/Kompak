@@ -12,7 +12,7 @@ import { ModeToggle } from "@/components/ModeToggle"
 export default function VerifyEmailPage() {
   // Retrieve the token from URL search params
   const searchParams = useSearchParams()
-  const token = searchParams.get("token")
+  const token = searchParams?.get("token")
 
   // States to track the verification status and message
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
