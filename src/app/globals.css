@@ -128,3 +128,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.no-grayscale {
+  filter: none !important;
+}
+
