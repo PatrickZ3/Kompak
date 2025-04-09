@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "Invalid status" });
     }
 
-    const updateData: any = {
+    const updateData: Partial<{ status: TaskStatus; dateFinish: Date | null }> = {
       status: prismaStatus,
     };
 

@@ -1,13 +1,13 @@
 "use client"
 import React from "react";
-import StoryCards from "./story-cards";
+import StoryCards, { Story } from "./story-cards";
 import { IconPlus } from "@tabler/icons-react";
 import { useDroppable } from "@dnd-kit/core"
 
 
 interface ProgressBoardProps {
   columns: string[];
-  userStories: any[];
+  userStories: Story[];
 }
 
 function DroppableColumn({
@@ -19,7 +19,7 @@ function DroppableColumn({
   className?: string
   children: React.ReactNode
 }) {
-  // useDroppable returns a ref setter
+
   const { setNodeRef } = useDroppable({ id })
 
   return (

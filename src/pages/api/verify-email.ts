@@ -28,7 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     return res.status(200).json({ message: "Email verified successfully" });
-  } catch (err) {
+  } catch (error) {
+    void error; 
     return res.status(500).json({ error: "Something went wrong" });
   }
 }

@@ -7,6 +7,21 @@ import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { Story } from "./story-cards";
 import Image from 'next/image';
 
+interface TaskResponse {
+    id: number;
+    story: string;
+    storyID: string;
+    description: string;
+    status: string;
+    time: string;        
+    finishedTime: string | null; 
+    priority: string;
+    user: {
+      avatar: string;
+      name: string;
+    }
+  }
+
 export default function Board() {
 
     const { theme } = useTheme();
@@ -18,7 +33,7 @@ export default function Board() {
         fetch("/api/board")
             .then(res => res.json())
             .then(data => {
-                const parsed = data.tasks.map((t: any) => ({
+                const parsed = data.tasks.map((t: TaskResponse) => ({
                     ...t,
                     time: new Date(t.time),
                     finishedTime: t.finishedTime ? new Date(t.finishedTime) : null,
@@ -38,7 +53,7 @@ export default function Board() {
             </div>
             <div className=" overflow-x-hidden">
                 <DndContext onDragEnd={handleDragEnd}>
-                    <ProgressColumn userStories={userStories} setUserStories={setUserStories} />
+                    <ProgressColumn userStories={userStories}/>
                 </DndContext>
             </div>
         </div>
@@ -58,7 +73,7 @@ export default function Board() {
             )
         );
 
-        // 🔁 Update the backend
+
         fetch("/api/update-status", {
             method: "POST",
             headers: {
@@ -68,7 +83,7 @@ export default function Board() {
         })
             .then((res) => res.json())
             .then(() => {
-                // ✅ Re-fetch updated tasks to get the new dateFinish
+
                 fetch("/api/board")
                     .then((res) => res.json())
                     .then((data) => setUserStories(data.tasks));
