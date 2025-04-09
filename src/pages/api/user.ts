@@ -32,6 +32,7 @@ export default async function handler(
       name: `${user.firstName} ${user.lastName}`,
       email: user.email,
       avatar: "/default.jpeg"  
+      // avatar: user.avatar || "/default.jpeg", after implement image upload
     };
 
     return res.status(200).json(currentUser);

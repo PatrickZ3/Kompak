@@ -60,6 +60,7 @@ export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Proj
     avatar: "/default.jpeg",
   });
 
+
   useEffect(() => {
     async function fetchUser() {
       try {
