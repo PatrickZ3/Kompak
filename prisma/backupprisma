@@ -11,7 +11,18 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl =  env("DIRECT_URL")
+}
+
+model User {
+  id                Int     @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String  @unique
+  verified          Boolean @default(false)
+  verificationToken String?
+  password          String
+  tasks             Task[]
+  boards            Board[] @relation("BoardCreator")
 }
 
 model Board {
@@ -21,9 +32,9 @@ model Board {
   description String
   dateCreated DateTime @default(now())
   tasks       Task[]
-  creatorId   String
+  creator     User     @relation("BoardCreator", fields: [creatorId], references: [id])
+  creatorId   Int
 }
-
 
 model Task {
   id          Int          @id @default(autoincrement())
@@ -36,11 +47,11 @@ model Task {
   dateFinish  DateTime?
   board       Board        @relation(fields: [boardId], references: [id])
   boardId     Int
-  assigneeId  String?
-  
+  assignee    User?        @relation(fields: [assigneeId], references: [id])
+  assigneeId  Int?
+
   @@unique([taskKey, boardId])
 }
-
 
 enum TaskStatus {
   TODO

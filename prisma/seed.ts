@@ -11,7 +11,7 @@ async function main() {
       firstName: 'Patrick',
       lastName: 'Lay',
       email: 'test@gmail.com',
-      password: 'contoh',
+      password: '$2b$10$XOtB3XBNdOn/cGssxIJ2g.J74HpX2HjfAfQXg0ZHp1.8ScieasCby',
       verified: true,
     },
   });

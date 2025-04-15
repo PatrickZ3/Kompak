@@ -10,13 +10,14 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
 import { ModeToggle } from "@/components/ModeToggle"
-
+import { useRouter } from "next/navigation"
 
 export default function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
+  const router = useRouter()
 
   const [form, setForm] = useState({
     firstName: "",
@@ -71,7 +72,7 @@ export default function RegistrationPage() {
 
       if (res.ok) {
         alert("Registration successful!")
-        // window.location.href = "/login" // optional redirect
+        router.push("/login");
       } else {
         alert(data.error || "Something went wrong")
       }

@@ -1,10 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { sendVerificationEmail } from "../api/email";
-import crypto from "crypto";
-import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import { supabase } from "../../lib/supabaseClient";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log("Registration endpoint hit");
@@ -18,24 +13,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationToken = crypto.randomBytes(32).toString("hex");
 
-    const user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        verified: false,
-        verificationToken,
-      },
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          firstName,
+          lastName
+        },
+        
+      }
     });
-    console.log("User created:", user);
 
-    await sendVerificationEmail(email, verificationToken);
+    if (error) {
+      console.error("Signup error:", error);
+      return res.status(500).json({ error: error.message });
+    }
 
-    return res.status(201).json({ message: "User created", user });
+    console.log("User created:", data.user);
+
+    return res.status(201).json({ message: "User created", user: data.user });
   } catch (err) {
     console.error("Registration error:", err);
     return res.status(500).json({ error: "User creation failed" });

@@ -3,7 +3,6 @@
 import { FormEvent, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -34,18 +34,18 @@ export default function LoginPage() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const result = await signIn("credentials", {
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
-            redirect: false,
         });
 
-        console.log("Sign in result:", result);
+        console.log("Sign in result:", data, error);
 
-        if (result?.error) {
-            setErrorMessage("Invalid email or password.");
+        if (error) {
+            setErrorMessage(error.message || "Invalid email or password.");
         } else {
-            router.push("/board");
+            // Redirect to /home upon successful login
+            router.push("/home");
         }
     };
 
