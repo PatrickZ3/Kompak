@@ -24,7 +24,7 @@ interface BoardProps {
   boardId: string | string[];
 }
 
-export default function Board({ boardId }: BoardProps) {
+export default function Board({ boardId, refreshCount }: BoardProps & { refreshCount: number }) {
   const { theme } = useTheme();
   const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png";
 
@@ -53,7 +53,7 @@ export default function Board({ boardId }: BoardProps) {
         setUserStories(parsed);
       })
       .catch(err => console.error("Failed to fetch tasks:", err));
-  }, [boardId]);
+  }, [boardId, refreshCount]);
 
   return (
     <div className="flex flex-col overflow-hidden">

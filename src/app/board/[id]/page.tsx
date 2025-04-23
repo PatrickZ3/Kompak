@@ -19,6 +19,9 @@ export default function Home() {
 
   const [activeView, setActiveView] = useState("Board")
   const [boardTitle, setBoardTitle] = useState("Loading...");
+  const [refreshCount, setRefreshCount] = useState(0);
+
+  const refreshTasks = () => setRefreshCount(prev => prev + 1)
 
    useEffect(() => {
     if (!id) return
@@ -54,9 +57,10 @@ export default function Home() {
         onNavigate={handleNavigate}
         boardTitle={boardTitle}
         boardId={id}
+        onRefreshTasks={refreshTasks} 
       />
       <SidebarInset>
-        {activeView === "Board" && <Board boardId={id}/>}
+        {activeView === "Board" && <Board boardId={id} refreshCount={refreshCount}/>}
         {activeView === "Timeline" && <Timeline />}
         {activeView === "Team" && <Team />}
       </SidebarInset>

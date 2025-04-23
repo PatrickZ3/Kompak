@@ -58,12 +58,14 @@ export function AppSidebar({
   onNavigate,
   boardTitle = "Untitled Project",
   boardId,
+  onRefreshTasks,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   activeView?: string
   onNavigate?: (viewName: string) => void
   boardTitle?: string
   boardId: string | number
+  onRefreshTasks?: () => void;
 }) {
 
   const [user, setUser] = useState({
@@ -113,7 +115,7 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} activeView={activeView} onNavigate={onNavigate} boardId={boardId}/>
+        <NavMain items={data.navMain} activeView={activeView} onNavigate={onNavigate} boardId={boardId} onRefreshTasks={onRefreshTasks} />
         <NavSecondary items={data.navSecondary} className="mt-auto " />
       </SidebarContent>
       <SidebarFooter>

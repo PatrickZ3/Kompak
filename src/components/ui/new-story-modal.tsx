@@ -20,10 +20,12 @@ export function NewStoryModal({
     isOpen,
     onClose,
     boardId,
+    onStoryCreated,
 }: {
     isOpen: boolean
     onClose: () => void
     boardId: number | string
+    onStoryCreated?: () => void; 
 }) {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -49,6 +51,7 @@ export function NewStoryModal({
         if (res.ok) {
             console.log("Story created!")
             onClose()
+            onStoryCreated?.();
         } else {
             console.error("Failed to create story")
         }

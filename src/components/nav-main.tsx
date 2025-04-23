@@ -17,6 +17,7 @@ export function NavMain({
   activeView,
   onNavigate,
   boardId,
+  onRefreshTasks,
 }: {
   items: {
     title: string
@@ -26,6 +27,7 @@ export function NavMain({
   activeView?: string
   onNavigate?: (viewName: string) => void
   boardId: number | string
+  onRefreshTasks?: () => void;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   return (
@@ -53,7 +55,7 @@ export function NavMain({
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
-      <NewStoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  boardId={boardId} />
+      <NewStoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  boardId={boardId} onStoryCreated={onRefreshTasks}/>
     </SidebarGroup>
   )
 }
