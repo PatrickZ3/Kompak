@@ -53,24 +53,34 @@ const data = {
   ],
 }
 
-export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Project",...props }: React.ComponentProps<typeof Sidebar> & {activeView?: string ; onNavigate?: (viewName: string) => void; boardTitle?: string;}) {
-  
+export function AppSidebar({
+  activeView,
+  onNavigate,
+  boardTitle = "Untitled Project",
+  boardId,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & {
+  activeView?: string
+  onNavigate?: (viewName: string) => void
+  boardTitle?: string
+  boardId: string | number
+}) {
+
   const [user, setUser] = useState({
     name: "Default User",
     email: "default@example.com",
     avatar: "/default.jpeg",
   });
 
-
   useEffect(() => {
     const getUser = async () => {
       const { data: { user }, error } = await supabase.auth.getUser();
-  
+
       if (error || !user) {
         console.error("Failed to get user:", error);
         return;
       }
-  
+
       setUser({
         name:
           user.user_metadata.name ||
@@ -80,7 +90,7 @@ export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Proj
         avatar: user.user_metadata.avatar_url || "/default.jpeg",
       });
     };
-  
+
     getUser();
   }, []);
   return (
@@ -103,7 +113,7 @@ export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Proj
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} activeView={activeView} onNavigate={onNavigate}/>
+        <NavMain items={data.navMain} activeView={activeView} onNavigate={onNavigate} boardId={boardId}/>
         <NavSecondary items={data.navSecondary} className="mt-auto " />
       </SidebarContent>
       <SidebarFooter>

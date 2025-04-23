@@ -53,6 +53,7 @@ export default function Home() {
         activeView={activeView}
         onNavigate={handleNavigate}
         boardTitle={boardTitle}
+        boardId={id}
       />
       <SidebarInset>
         {activeView === "Board" && <Board boardId={id}/>}
