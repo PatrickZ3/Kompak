@@ -96,12 +96,14 @@ export default function Board({ boardId }: BoardProps) {
         fetch(`/api/board?boardCode=${boardId}`)
           .then(res => res.json())
           .then(data => {
-            const updatedTasks = data?.Task ?? [];
+            const updatedTasks = data?.tasks ?? [];
             const parsed = updatedTasks.map((t: TaskResponse) => ({
               ...t,
-              time: new Date(t.dateCreated),
+              time: t.time ? new Date(t.time) : null, 
               finishedTime: t.finishedTime ? new Date(t.finishedTime) : null,
             }));
+            console.log("Board refetch response:", data);
+console.log("Updated tasks after drag:", updatedTasks);
             setUserStories(parsed);
           });
       })

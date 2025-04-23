@@ -1,45 +1,66 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, TaskStatus } from "@prisma/client";
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import type { Database } from "@/lib/database.types";
 
-const prisma = new PrismaClient();
-
-const STATUS_MAP: Record<string, TaskStatus> = {
+const STATUS_MAP = {
   "To Do": "TODO",
   "In Progress": "IN_PROGRESS",
-  "Done": "DONE",
-};
+  Done: "DONE",
+} as const;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+type SupabaseStatus = (typeof STATUS_MAP)[keyof typeof STATUS_MAP];
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  try {
-    const { taskId, newStatus } = req.body;
-    const prismaStatus = STATUS_MAP[newStatus];
+  const supabase = createPagesServerClient<Database>({ req, res });
 
-    if (!prismaStatus) {
+  const {
+    data: { session },
+    error: sessionError,
+  } = await supabase.auth.getSession();
+
+  if (!session || sessionError) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const {
+      taskId,
+      newStatus,
+    }: { taskId: number; newStatus: keyof typeof STATUS_MAP } = req.body;
+    const supabaseStatus: SupabaseStatus = STATUS_MAP[newStatus];
+
+    if (!supabaseStatus) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
-    const updateData: Partial<{ status: TaskStatus; dateFinish: Date | null }> = {
-      status: prismaStatus,
+    const updateData: {
+      status?: "TODO" | "IN_PROGRESS" | "DONE";
+      dateFinish?: string | null;
+    } = {
+      status: supabaseStatus,
+      dateFinish: supabaseStatus === "DONE" ? new Date().toISOString() : null,
+
     };
 
-    if (prismaStatus === "DONE") {
-      updateData.dateFinish = new Date(); 
-    } else {
-      updateData.dateFinish = null; 
+    const { error } = await supabase
+      .from("Task")
+      .update(updateData)
+      .eq("id", taskId);
+
+    if (error) {
+      throw error;
     }
 
-    await prisma.task.update({
-      where: { id: taskId },
-      data: updateData,
-    });
-
-    res.status(200).json({ message: "Status + finish date updated" });
+    res.status(200).json({ message: "Task updated" });
   } catch (error) {
-    console.error("Error updating status:", error);
+    console.error("Error updating task:", error);
     res.status(500).json({ message: "Something went wrong" });
   }
 }

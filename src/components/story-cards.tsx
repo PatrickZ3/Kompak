@@ -61,8 +61,6 @@ function DraggableCard({ story, children }: { story: Story, children: React.Reac
 }
 
 function formatTimeLabel(story: Story) {
-    console.log("time", story.time);
-    console.log("fisnihedtime", story.finishedTime);
     const raw = story.status === "Done" ? story.finishedTime : story.time;
 
   
