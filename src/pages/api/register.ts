@@ -20,10 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       options: {
         data: {
           firstName,
-          lastName
+          lastName,
+          name: `${firstName} ${lastName}`,
         },
-        
-      }
+      },
     });
 
     if (error) {

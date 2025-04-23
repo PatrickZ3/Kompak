@@ -22,6 +22,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { supabase } from "@/lib/supabaseClient"
 
 
 const data = {
@@ -62,22 +63,26 @@ export function AppSidebar({ activeView, onNavigate, boardTitle = "Untitled Proj
 
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const response = await fetch("/api/user");
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          console.error("Failed to fetch user:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
+    const getUser = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+  
+      if (error || !user) {
+        console.error("Failed to get user:", error);
+        return;
       }
-    }
-
-    fetchUser();
-  }, [])
+  
+      setUser({
+        name:
+          user.user_metadata.name ||
+          `${user.user_metadata.firstName ?? ""} ${user.user_metadata.lastName ?? ""}`.trim() ||
+          user.email?.split("@")[0] || "User",
+        email: user.email || "unknown",
+        avatar: user.user_metadata.avatar_url || "/default.jpeg",
+      });
+    };
+  
+    getUser();
+  }, []);
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>

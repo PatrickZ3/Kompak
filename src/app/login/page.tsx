@@ -44,8 +44,15 @@ export default function LoginPage() {
         if (error) {
             setErrorMessage(error.message || "Invalid email or password.");
         } else {
-            // Redirect to /home upon successful login
-            router.push("/home");
+            const { session } = data;
+            await fetch("/api/auth/set", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ session }),
+            });
+            router.push("/dashboard");
         }
     };
 
