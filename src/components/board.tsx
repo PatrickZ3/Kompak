@@ -38,8 +38,8 @@ export default function Board({ boardId }: BoardProps) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log("Fetched board data:", data); 
-        
+        console.log("Fetched board data:", data);
+
         const tasks = data?.tasks ?? [];
         console.log("Fetched tasks:", tasks);
 
@@ -89,7 +89,7 @@ export default function Board({ boardId }: BoardProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ taskId: storyId, newStatus }),
-      credentials: "include", 
+      credentials: "include",
     })
       .then(res => res.json())
       .then(() => {
@@ -99,11 +99,9 @@ export default function Board({ boardId }: BoardProps) {
             const updatedTasks = data?.tasks ?? [];
             const parsed = updatedTasks.map((t: TaskResponse) => ({
               ...t,
-              time: t.time ? new Date(t.time) : null, 
+              time: t.time ? new Date(t.time) : null,
               finishedTime: t.finishedTime ? new Date(t.finishedTime) : null,
             }));
-            console.log("Board refetch response:", data);
-console.log("Updated tasks after drag:", updatedTasks);
             setUserStories(parsed);
           });
       })

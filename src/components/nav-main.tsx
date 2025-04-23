@@ -1,7 +1,7 @@
 "use client"
 
 import { IconCirclePlus,  type Icon } from "@tabler/icons-react"
-
+import { useState } from "react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,6 +9,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+
+import { NewStoryModal } from "./ui/new-story-modal"
 
 export function NavMain({
   items,
@@ -23,6 +25,7 @@ export function NavMain({
   activeView?: string
   onNavigate?: (viewName: string) => void
 }) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   return (
     <SidebarGroup className="pt-0">
       <SidebarGroupContent className="flex flex-col">
@@ -31,6 +34,7 @@ export function NavMain({
             <SidebarMenuButton
               tooltip="Quick Create"
               className="cursor-pointer min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+              onClick={() => setIsModalOpen(true)}
             >
               <IconCirclePlus className="mr-2 !h-5 !w-5" />
               <span>New Story</span>
@@ -47,6 +51,7 @@ export function NavMain({
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
+      <NewStoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </SidebarGroup>
   )
 }

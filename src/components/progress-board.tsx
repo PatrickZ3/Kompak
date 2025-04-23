@@ -43,15 +43,16 @@ export default function ProgressBoard({ columns, userStories }: ProgressBoardPro
         );
 
         storiesInThisColumn = storiesInThisColumn.sort((a, b) => {
-
           const aPriority = priorityMap[a.priority];
           const bPriority = priorityMap[b.priority];
-
+        
           if (aPriority < bPriority) return -1;
           if (aPriority > bPriority) return 1;
-
-          return new Date(a.time).getTime() - new Date(b.time).getTime();
-
+        
+          const aTime = a.time ? new Date(a.time).getTime() : 0;
+          const bTime = b.time ? new Date(b.time).getTime() : 0;
+        
+          return aTime - bTime;
         });
 
         return (
