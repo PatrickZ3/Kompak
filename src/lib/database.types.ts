@@ -50,6 +50,7 @@ export type Database = {
           description: string
           id: number
           title: string
+          taskCounter: number
         }
         Insert: {
           boardCode: string
@@ -58,6 +59,7 @@ export type Database = {
           description: string
           id?: number
           title: string
+          taskCounter?: number
         }
         Update: {
           boardCode?: string
@@ -66,6 +68,7 @@ export type Database = {
           description?: string
           id?: number
           title?: string
+          taskCounter?: number
         }
         Relationships: []
       }

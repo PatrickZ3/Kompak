@@ -39,6 +39,7 @@ export default function Board({ boardId }: BoardProps) {
       .then(res => res.json())
       .then(data => {
         console.log("Fetched board data:", data); 
+        
         const tasks = data?.tasks ?? [];
 
         const parsed = tasks.map((t: TaskResponse) => ({

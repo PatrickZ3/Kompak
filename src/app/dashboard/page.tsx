@@ -23,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
+import { title } from "process"
 
 
 export default function Dashboard() {
@@ -67,26 +68,27 @@ export default function Dashboard() {
       ])
       .select()
       .single();
-
     if (boardError || !boardData) {
       console.error("Error creating board:", boardError);
       return;
     }
 
     const newBoardId = boardData.id;
+    const taskId = boardData.title.split(" ").map((word: string) => word[0]).join("").toUpperCase();
+    console.log("WOIIIII", taskId);
 
     const defaultTasks = [
       {
-        taskKey: `TODO-${Date.now()}`,
+        taskKey: `${taskId}-1`,
         title: "Get started with Kompak",
         description: "This is a sample task in To Do",
         status: "TODO",
-        priority: "MEDIUM",
+        priority: "LOW",
         boardId: newBoardId,
         dateCreated: new Date().toISOString(),
       },
       {
-        taskKey: `TODO-${Date.now() + 1}`,
+        taskKey: `${taskId}-2`,
         title: "Working on your first story",
         description: "This is a sample task in progress",
         status: "IN_PROGRESS",
@@ -95,11 +97,11 @@ export default function Dashboard() {
         dateCreated: new Date().toISOString(),
       },
       {
-        taskKey: `TODO-${Date.now() + 2}`,
+        taskKey: `${taskId}-3`,
         title: "Done with the first setup",
         description: "This is a completed sample task",
         status: "DONE",
-        priority: "MEDIUM",
+        priority: "HIGH",
         boardId: newBoardId,
         dateCreated: new Date().toISOString(),
       },
@@ -158,7 +160,7 @@ export default function Dashboard() {
             id: board.id,
             title: board.title,
             description: board.description,
-            tasksCount: 0,
+            tasksCount: board.taskCounter,
             updatedAt: new Date(board.dateCreated).toLocaleDateString(),
           }))
         );
