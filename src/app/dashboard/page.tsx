@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { title } from "process"
+import { date } from "zod"
 
 
 export default function Dashboard() {
@@ -76,6 +77,8 @@ export default function Dashboard() {
     const newBoardId = boardData.id;
     const taskId = boardData.title.split(" ").map((word: string) => word[0]).join("").toUpperCase();
     console.log("WOIIIII", taskId);
+    console.log("Task Date:", new Date().toISOString());
+    console.log("Local ISO-ish:", new Date().toISOString().split("T")[0]);
 
     const defaultTasks = [
       {
@@ -104,10 +107,13 @@ export default function Dashboard() {
         priority: "HIGH",
         boardId: newBoardId,
         dateCreated: new Date().toISOString(),
+        dateFinish: new Date().toISOString(),
       },
     ];
 
     const { error: taskError } = await supabase.from("Task").insert(defaultTasks);
+    console.log("📦 Tasks being inserted:", defaultTasks);
+
 
     if (taskError) {
       console.error("Error creating tasks:", taskError?.message, taskError?.details, taskError);
@@ -148,7 +154,7 @@ export default function Dashboard() {
       const { data, error } = await supabase
         .from("Board")
         .select("*")
-        .eq("creatorId", userData.user.id); // only fetch your own boards
+        .eq("creatorId", userData.user.id); 
 
       if (error) {
         console.error("Failed to fetch boards:", error);

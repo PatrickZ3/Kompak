@@ -15,7 +15,7 @@ interface TaskResponse {
   status: string;
   time?: string;
   dateCreated: string;
-  dateFinish?: string | null;
+  finishedTime?: string | null;
   priority: string;
   assigneeId?: string;
 }
@@ -41,11 +41,13 @@ export default function Board({ boardId }: BoardProps) {
         console.log("Fetched board data:", data); 
         
         const tasks = data?.tasks ?? [];
+        console.log("Fetched tasks:", tasks);
+
 
         const parsed = tasks.map((t: TaskResponse) => ({
           ...t,
-          time: new Date(t.dateCreated),
-          finishedTime: t.dateFinish ? new Date(t.dateFinish) : null,
+          time: t.time ? new Date(t.time) : null,
+          finishedTime: t.finishedTime ? new Date(t.finishedTime) : null,
         }));
 
         setUserStories(parsed);
@@ -98,7 +100,7 @@ export default function Board({ boardId }: BoardProps) {
             const parsed = updatedTasks.map((t: TaskResponse) => ({
               ...t,
               time: new Date(t.dateCreated),
-              finishedTime: t.dateFinish ? new Date(t.dateFinish) : null,
+              finishedTime: t.finishedTime ? new Date(t.finishedTime) : null,
             }));
             setUserStories(parsed);
           });

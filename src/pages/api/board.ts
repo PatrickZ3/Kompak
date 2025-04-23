@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     description: task.description,
     status: formatStatus(task.status),
     time: task.dateCreated,
-    finishedTime: task.dateFinish,
+    finishedTime: task.dateFinish ?? null,
     priority: formatPriority(task.priority),
     user: {
       avatar: "/avatars/shadcn.jpg",
@@ -62,6 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   return res.status(200).json({
     boardTitle: board.title,
     tasks: formattedTasks,
+    
   });
 }
 
