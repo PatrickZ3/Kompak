@@ -23,9 +23,23 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
-import { title } from "process"
-import { date } from "zod"
 
+type DatabaseBoard = {
+  id: string;
+  title: string;
+  description: string;
+  taskCounter: number;
+  dateCreated: string; 
+};
+
+
+type Board = {
+  id: string;
+  title: string;
+  description: string;
+  tasksCount: number;
+  updatedAt: string; 
+};
 
 export default function Dashboard() {
   const router = useRouter();
@@ -34,7 +48,7 @@ export default function Dashboard() {
   const [newBoardName, setNewBoardName] = useState("")
   const [newBoardDescription, setNewBoardDescription] = useState("")
 
-  const [boards, setBoards] = useState<any[]>([])
+  const [boards, setBoards] = useState<Board[]>([])
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
   const [currentUser, setCurrentUser] = useState<null | {
@@ -135,7 +149,6 @@ export default function Dashboard() {
   };
 
 
-  // Function to delete a board
   const deleteBoard = (id: string) => {
     setBoards(boards.filter((board) => board.id !== id))
   }
@@ -162,7 +175,7 @@ export default function Dashboard() {
         console.log("Fetched boards:", data);
 
         setBoards(
-          data.map((board: any) => ({
+          data.map((board: DatabaseBoard) => ({
             id: board.id,
             title: board.title,
             description: board.description,
@@ -178,7 +191,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user }, error } = await supabase.auth.getUser()
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        console.error("Failed to fetch user:", error.message);
+        return;
+      }
       if (user) {
         setCurrentUser({
           name:
@@ -240,6 +257,7 @@ export default function Dashboard() {
             {boards.map((board) => (
               <div
                 key={board.id}
+                onClick={() => router.push(`/board/${board.id}`)}
                 className="group flex flex-col rounded-lg border border-border bg-card p-4 transition-all hover:border-muted cursor-pointer"
               >
                 <div className="mb-2 flex items-start justify-between">

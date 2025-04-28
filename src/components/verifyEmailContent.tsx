@@ -8,13 +8,11 @@ import { CheckCircle2, XCircle, Loader2, LogIn, RefreshCcw, Mail } from "lucide-
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/ModeToggle"
 import { supabase } from "@/lib/supabaseClient"
-import { useRouter } from "next/router"
 
 export default function VerifyEmailContent() {
   const [status, setStatus] = useState<"waiting" | "verified" | "error">("waiting")
   const [message, setMessage] = useState("Please check your email and click on the verification link.")
   const { theme } = useTheme()
-  const router = useRouter()
 
   // Function to check user verification status
   async function checkVerification() {
