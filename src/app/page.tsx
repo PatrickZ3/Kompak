@@ -56,14 +56,14 @@ export default function HomePage() {
 
           <div className="flex w-1/4 items-center justify-end gap-4">
             <ModeToggle />
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2 ">
               <Link href="/login">
-                <Button variant="outline" className="h-9">
+                <Button variant="outline" className="h-9 cursor-pointer">
                   Log In
                 </Button>
               </Link>
-              <Link href="/signup">
-                <Button className="h-9 bg-red-500 text-white hover:bg-red-600">Sign Up</Button>
+              <Link href="/registration">
+                <Button className="h-9 bg-red-500 text-white hover:bg-red-600 cursor-pointer">Sign Up</Button>
               </Link>
             </div>
 
@@ -114,7 +114,7 @@ export default function HomePage() {
                   Log In
                 </Button>
               </Link>
-              <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/registration" onClick={() => setMobileMenuOpen(false)}>
                 <Button className="w-full bg-red-500 text-white hover:bg-red-600">Sign Up</Button>
               </Link>
             </div>
@@ -137,14 +137,14 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/signup">
-                    <Button className="bg-red-500 text-white hover:bg-red-600">
+                  <Link href="/registration">
+                    <Button className="bg-red-500 text-white hover:bg-red-600 cursor-pointer">
                       Get Started
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="#features">
-                    <Button variant="outline">Learn More</Button>
+                    <Button variant="outline" className="cursor-pointer">Learn More</Button>
                   </Link>
                 </div>
 
@@ -374,8 +374,8 @@ export default function HomePage() {
                 </span>
               </div>
               <div className="mt-8">
-                <Link href="https://github.com/yourusername/kompak" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="gap-2">
+                <Link href="https://github.com/PatrickZ3/Kompak" target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="gap-2 cursor-pointer">
                     <svg viewBox="0 0 24 24" className="h-5 w-5">
                       <path
                         fill="currentColor"
@@ -393,18 +393,12 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="w-full border-t border-border bg-card py-6 md:py-8">
-        <div className="container flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
+        <div className="container mx-auto flex items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <Image src={logoSrc || "/placeholder.svg"} alt="Kompak Logo" width={100} height={50} />
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Kompak. All rights reserved.</p>
           </div>
-          <div className="flex gap-4">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-secondary-foreground">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-secondary-foreground">
-              Terms of Service
-            </Link>
+          <div className="flex justify-end">
             <Link href="#" className="text-sm text-muted-foreground hover:text-secondary-foreground">
               Contact
             </Link>
