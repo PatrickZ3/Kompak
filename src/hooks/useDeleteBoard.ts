@@ -25,8 +25,6 @@ export const useDeleteBoard = () => {
       alert("Failed to delete board. Please try again.")
       return false
     }
-
-    alert("Board deleted successfully.")
     return true
   }
 

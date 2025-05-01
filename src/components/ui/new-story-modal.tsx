@@ -99,7 +99,7 @@ export function NewStoryModal({
                     </DialogTitle>
                     <button
                         onClick={onClose}
-                        className="absolute right-4 top-4 text-gray-400 hover:text-white transition"
+                        className="absolute right-4 top-4 text-gray-400 hover:text-white transition cursor-pointer"
                         aria-label="Close"
                     >
 
@@ -184,14 +184,14 @@ export function NewStoryModal({
                     <Button
                         variant="outline"
                         onClick={onClose}
-                        className="border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
+                        className="border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white cursor-pointer"
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSubmit}
                         disabled={!title.trim()}
-                        className="bg-[#454545] hover:bg-[#555555] text-white"
+                        className="bg-red-500 hover:bg-red-600 text-white cursor-pointer"
                     >
                         Create Story
                     </Button>

@@ -24,13 +24,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { useDeleteBoard } from "@/hooks/useDeleteBoard"
+import { EditBoardModal } from "@/components/ui/edit-modal"
+
 
 type DatabaseBoard = {
   id: string;
   title: string;
   description: string;
   taskCounter: number;
-  dateCreated: string; 
+  dateCreated: string;
 };
 
 
@@ -39,7 +41,7 @@ type Board = {
   title: string;
   description: string;
   tasksCount: number;
-  updatedAt: string; 
+  updatedAt: string;
 };
 
 export default function Dashboard() {
@@ -152,6 +154,21 @@ export default function Dashboard() {
 
   const { deleteBoard } = useDeleteBoard()
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [currentBoard, setCurrentBoard] = useState<Board | null>(null)
+  const openEditModal = (e: React.MouseEvent, board: Board) => {
+    e.stopPropagation()
+    setCurrentBoard(board)
+    setIsEditModalOpen(true)
+  }
+
+  const handleBoardUpdated = (id: string, title: string, description: string) => {
+    setBoards((prev) =>
+      prev.map((b) => (b.id === id ? { ...b, title, description } : b))
+    )
+  }
+
+
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -167,7 +184,7 @@ export default function Dashboard() {
       const { data, error } = await supabase
         .from("Board")
         .select("*")
-        .eq("creatorId", userData.user.id); 
+        .eq("creatorId", userData.user.id);
 
       if (error) {
         console.error("Failed to fetch boards:", error);
@@ -267,13 +284,16 @@ export default function Dashboard() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 cursor-pointer"
+                        className="h-8 w-8 text-muted-foreground opacity-100 transition-opacity group-hover:opacity-100 cursor-pointer"
                       >
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-40 bg-card text-secondary-foreground">
-                      <DropdownMenuItem className="flex items-center hover:bg-muted cursor-pointer">
+                      <DropdownMenuItem
+                        className="flex items-center hover:bg-muted cursor-pointer"
+                        onClick={(e) => openEditModal(e, board)}
+                      >
                         <Edit className="mr-2 h-4 w-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>
@@ -405,6 +425,15 @@ export default function Dashboard() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {currentBoard && (
+        <EditBoardModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          board={currentBoard}
+          onBoardUpdated={handleBoardUpdated}
+        />
+      )}
+
     </div>
   )
 }
