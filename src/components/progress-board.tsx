@@ -37,7 +37,7 @@ export default function ProgressBoard({ columns, userStories,  setUserStories }:
     Low: 3,
   };
   return (
-    <div className="w-full flex space-x-4 h-full">
+    <div className="w-full flex space-x-4 h-full ">
       {columns.map((colTitle) => {
         let storiesInThisColumn = userStories.filter(
           (story) => story.status === colTitle

@@ -61,7 +61,7 @@
           <Image src={logoSrc} alt="Kompak Logo" width={120} height={60} />
           <ModeToggle />
         </div>
-        <div className="overflow-x-hidden">
+        <div className="relative h-full w-full overflow-hidden">
           <DndContext onDragEnd={handleDragEnd}>
             <ProgressColumn userStories={userStories} setUserStories={setUserStories}/>
           </DndContext>
