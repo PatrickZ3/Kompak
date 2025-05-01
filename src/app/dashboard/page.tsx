@@ -300,6 +300,7 @@ export default function Dashboard() {
                       <DropdownMenuItem
                         className="flex items-center text-red-500 hover:bg-muted cursor-pointer"
                         onClick={async (e) => {
+                          // console.log("Deleting board:", board.id)
                           e.stopPropagation()
                           const success = await deleteBoard(board.id)
                           if (success) {

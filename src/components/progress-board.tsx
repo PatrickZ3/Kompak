@@ -8,6 +8,7 @@ import { useDroppable } from "@dnd-kit/core"
 interface ProgressBoardProps {
   columns: string[];
   userStories: Story[];
+  setUserStories: React.Dispatch<React.SetStateAction<Story[]>>
 }
 
 function DroppableColumn({
@@ -29,7 +30,7 @@ function DroppableColumn({
   )
 }
 
-export default function ProgressBoard({ columns, userStories }: ProgressBoardProps) {
+export default function ProgressBoard({ columns, userStories,  setUserStories }: ProgressBoardProps) {
   const priorityMap: Record<string, number> = {
     High: 1,
     Medium: 2,
@@ -65,7 +66,7 @@ export default function ProgressBoard({ columns, userStories }: ProgressBoardPro
               <h2 className="text-secondary-foreground font-bold">{colTitle}</h2>
               <IconPlus className="text-secondary-foreground w-5 h-5 cursor-pointer" />
             </div>
-            <StoryCards stories={storiesInThisColumn} />
+            <StoryCards stories={storiesInThisColumn} setUserStories={setUserStories}/>
           </DroppableColumn>
         );
       })}
