@@ -23,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
+import { useDeleteBoard } from "@/hooks/useDeleteBoard"
 
 type DatabaseBoard = {
   id: string;
@@ -149,9 +150,8 @@ export default function Dashboard() {
   };
 
 
-  const deleteBoard = (id: string) => {
-    setBoards(boards.filter((board) => board.id !== id))
-  }
+  const { deleteBoard } = useDeleteBoard()
+
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -267,18 +267,25 @@ export default function Dashboard() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+                        className="h-8 w-8 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 cursor-pointer"
                       >
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-40 bg-card text-secondary-foreground">
-                      <DropdownMenuItem className="flex items-center hover:bg-muted">
+                      <DropdownMenuItem className="flex items-center hover:bg-muted cursor-pointer">
                         <Edit className="mr-2 h-4 w-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="flex items-center text-red-500 hover:bg-muted"
+                        className="flex items-center text-red-500 hover:bg-muted cursor-pointer"
+                        onClick={async (e) => {
+                          e.stopPropagation()
+                          const success = await deleteBoard(board.id)
+                          if (success) {
+                            setBoards((prev) => prev.filter((b) => b.id !== board.id))
+                          }
+                        }}
                       >
                         <Trash2 className="mr-2 h-4 w-4" />
                         <span>Delete</span>

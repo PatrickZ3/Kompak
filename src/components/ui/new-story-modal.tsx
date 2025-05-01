@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { supabase } from "@/lib/supabaseClient"
 import { User } from "lucide-react"
 import {
     Dialog,
@@ -30,32 +31,62 @@ export function NewStoryModal({
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [priority, setPriority] = useState("medium")
+    
 
     const handleSubmit = async () => {
-        const payload = {
-            boardId: Number(boardId), // Ensure it’s a number
+        try {
+          // 1. Get board title and current taskCounter
+          const { data: board, error: boardError } = await supabase
+            .from("Board")
+            .select("title, taskCounter")
+            .eq("id", boardId)
+            .single()
+    
+          if (boardError || !board) {
+            throw new Error("Failed to fetch board data.")
+          }
+    
+          const initials = board.title
+            .split(" ")
+            .map((word: string) => word[0])
+            .join("")
+            .toUpperCase()
+    
+          const taskNumber = board.taskCounter + 1
+          const taskKey = `${initials}-${taskNumber}`
+    
+          // 2. Insert new task/story
+          const payload = {
+            boardId: Number(boardId),
+            taskKey,
             title,
             description,
-            priority: priority.toUpperCase(), // Convert to "LOW", "MEDIUM", or "HIGH"
+            priority: priority.toUpperCase(),
             assigneeId: "user-id-placeholder",
-        };
-
-        console.log("Submitting payload:", payload); 
-
-        const res = await fetch("/api/add-story", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        })
-
-        if (res.ok) {
-            console.log("Story created!")
-            onClose()
-            onStoryCreated?.();
-        } else {
-            console.error("Failed to create story")
+            status: "TODO",
+            dateCreated: new Date().toISOString(),
+          }
+    
+          const { error: insertError } = await supabase.from("Task").insert(payload)
+    
+          if (insertError) {
+            throw new Error("Failed to create story.")
+          }
+    
+          // 3. Update the taskCounter in the Board
+          await supabase
+            .from("Board")
+            .update({ taskCounter: taskNumber })
+            .eq("id", boardId)
+    
+          onClose()
+          onStoryCreated?.()
+        } catch (err) {
+          console.error(err)
+          alert("Failed to create story.")
         }
-    }
+      }
+    
 
 
 
