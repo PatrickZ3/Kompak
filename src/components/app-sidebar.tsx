@@ -5,9 +5,9 @@ import { useState, useEffect } from "react"
 import {
   IconClockHour4,
   IconDashboard,
-  IconFolder,
   IconSettings,
   IconUsers,
+  IconArrowLeft
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -100,17 +100,13 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="#">
-                <div className="rounded-sm bg-primary p-1 text-primary-foreground">
-                  <IconFolder className="!size-4" />
-                </div>
-                <span className="text-sm font-extrabold">{boardTitle}</span>
+            <SidebarMenuButton asChild>
+              <a href="/dashboard" className="flex items-center gap-2 rounded-md px-3 py-2 text-secondary-foreground hover:bg-muted hover:text-foreground transition-colors">
+                <IconArrowLeft className="w-4 h-4" />
+                <span className="text-sm font-medium">Back to Dashboard</span>
               </a>
             </SidebarMenuButton>
+
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

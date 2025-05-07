@@ -52,7 +52,7 @@ export function NavMain({
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          ))}
+          ))}   
         </SidebarMenu>
       </SidebarGroupContent>
       <NewStoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  boardId={boardId} onStoryCreated={onRefreshTasks}/>

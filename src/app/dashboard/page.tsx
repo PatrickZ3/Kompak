@@ -166,9 +166,15 @@ export default function Dashboard() {
     setBoards((prev) =>
       prev.map((b) => (b.id === id ? { ...b, title, description } : b))
     )
+    setIsEditModalOpen(false)
   }
 
-
+  useEffect(() => {
+    if (!isEditModalOpen) {
+      document.body.style.pointerEvents = "auto"; // restore pointer events
+    }
+  }, [isEditModalOpen])
+  
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -426,7 +432,7 @@ export default function Dashboard() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {currentBoard && (
+      {isEditModalOpen && currentBoard && (
         <EditBoardModal
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}

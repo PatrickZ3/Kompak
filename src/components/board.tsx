@@ -6,6 +6,7 @@
   import { DndContext, DragEndEvent } from "@dnd-kit/core";
   import { Story } from "./story-cards";
   import Image from "next/image";
+import { set } from "zod";
 
   interface TaskResponse {
     id: number;
@@ -29,7 +30,7 @@
     const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png";
     
     const [userStories, setUserStories] = useState<Story[]>([]);
-
+    const [title, setTitle] = useState("Loading...");
     useEffect(() => {
       if (!boardId) return;
 
@@ -42,8 +43,8 @@
 
           const tasks = data?.tasks ?? [];
           console.log("Fetched tasks:", tasks);
-
-
+          const title = data?.boardTitle ??  "Untitled Board";
+          console.log("Fetched title:", title);
           const parsed = tasks.map((t: TaskResponse) => ({
             ...t,
             time: t.time ? new Date(t.time) : null,
@@ -51,6 +52,7 @@
           }));
 
           setUserStories(parsed);
+          setTitle(title);
         })
         .catch(err => console.error("Failed to fetch tasks:", err));
     }, [boardId, refreshCount]);
@@ -59,6 +61,7 @@
       <div className="flex flex-col overflow-hidden">
         <div className="flex justify-between items-center px-4 py-2 text-secondary-foreground font-bold">
           <Image src={logoSrc} alt="Kompak Logo" width={120} height={60} />
+          <div className="absolute left-1/2 transform -translate-x-1/2 text-center">{title}</div>
           <ModeToggle />
         </div>
         <div className="relative h-full w-full overflow-hidden">
