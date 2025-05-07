@@ -27,7 +27,7 @@
   export default function Board({ boardId, refreshCount }: BoardProps & { refreshCount: number }) {
     const { theme } = useTheme();
     const logoSrc = theme === "dark" ? "/logo.png" : "/logoReverse.png";
-
+    
     const [userStories, setUserStories] = useState<Story[]>([]);
 
     useEffect(() => {

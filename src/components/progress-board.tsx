@@ -64,7 +64,6 @@ export default function ProgressBoard({ columns, userStories,  setUserStories }:
           >
             <div className="flex items-center justify-between w-full mb-2">
               <h2 className="text-secondary-foreground font-bold">{colTitle}</h2>
-              <IconPlus className="text-secondary-foreground w-5 h-5 cursor-pointer" />
             </div>
             <StoryCards stories={storiesInThisColumn} setUserStories={setUserStories}/>
           </DroppableColumn>

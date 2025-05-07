@@ -413,13 +413,13 @@ export default function Dashboard() {
           </div>
           <DialogFooter className="flex justify-between sm:justify-between">
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" className="cursor-pointer">Cancel</Button>
             </DialogClose>
             <Button
               type="submit"
               onClick={addNewBoard}
               disabled={!newBoardName.trim()}
-              className="bg-red-500 text-primary-foreground hover:bg-red-600"
+              className="bg-red-500 text-primary-foreground hover:bg-red-600 cursor-pointer"
             >
               Create New Board
             </Button>
