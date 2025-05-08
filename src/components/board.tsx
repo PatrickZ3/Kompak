@@ -6,7 +6,6 @@
   import { DndContext, DragEndEvent } from "@dnd-kit/core";
   import { Story } from "./story-cards";
   import Image from "next/image";
-import { set } from "zod";
 
   interface TaskResponse {
     id: number;

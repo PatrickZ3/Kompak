@@ -21,6 +21,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { useDraggable } from "@dnd-kit/core";
 import { useDeleteTask } from "@/hooks/useDeleteTask"
+import { CardEditModal } from "@/components/ui/edit-task-modal"
 
 export interface Story {
     id: number
@@ -67,6 +68,9 @@ function formatTimeLabel(story: Story) {
 
 export default function StoryCards({ stories, setUserStories }: StoryCardsProps) {
     const { deleteTask } = useDeleteTask()
+    const [isEditModalOpen, setEditModalOpen] = React.useState(false)
+    const [selectedCard, setSelectedCard] = React.useState<any | null>(null)
+
 
     const handleDelete = async (storyId: number) => {
         console.log("🧨 Trying to delete task with ID:", storyId)
@@ -78,6 +82,24 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
             console.log("❌ Failed to delete")
         }
     }
+
+    const handleSaveCard = (updatedCard: any) => {
+        setUserStories((prev) =>
+            prev.map((story) =>
+                story.id === Number(updatedCard.id)
+                    ? {
+                        ...story,
+                        story: updatedCard.title,
+                        description: updatedCard.description,
+                        status: updatedCard.status,
+                        priority: updatedCard.priority,
+                        time: new Date(updatedCard.date),
+                    }
+                    : story
+            )
+        )
+    }
+
 
     return (
         <div className="grid grid-cols-1 gap-4 lg:@xl/main:grid-cols-2 @5xl/main:grid-cols-4">
@@ -111,7 +133,22 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
                                         </button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="w-32">
-                                        <DropdownMenuItem className="flex items-center hover:bg-muted cursor-pointer">
+                                        <DropdownMenuItem
+                                            className="flex items-center hover:bg-muted cursor-pointer"
+                                            onClick={() => {
+                                                setSelectedCard({
+                                                    id: story.storyID.toString(),
+                                                    title: story.story,
+                                                    description: story.description,
+                                                    status: story.status,
+                                                    priority: story.priority,
+                                                    date: story.time
+                                                        ? new Date(story.time).toISOString().split("T")[0]
+                                                        : new Date().toISOString().split("T")[0],
+                                                })
+                                                setEditModalOpen(true)
+                                            }}
+                                        >
                                             <Edit className="mr-2 h-4 w-4" />
                                             <span>Edit</span>
                                         </DropdownMenuItem>
@@ -155,6 +192,15 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
                     )}
                 </DraggableCard>
             ))}
+            {isEditModalOpen && selectedCard && (
+                <CardEditModal
+                    isOpen={isEditModalOpen}
+                    onClose={() => setEditModalOpen(false)}
+                    card={selectedCard}
+                    onSave={handleSaveCard}
+                />
+            )}
+
         </div>
     )
 }
