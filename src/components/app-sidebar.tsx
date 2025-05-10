@@ -32,23 +32,23 @@ const data = {
       url: "#",
       icon: IconDashboard,
     },
-    {
-      title: "Timeline",
-      url: "#",
-      icon: IconClockHour4,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
+    // {
+    //   title: "Timeline",
+    //   url: "#",
+    //   icon: IconClockHour4,
+    // },
+    // {
+    //   title: "Team",
+    //   url: "#",
+    //   icon: IconUsers,
+    // },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: IconSettings,
+    // },
 
   ],
 }

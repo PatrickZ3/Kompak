@@ -70,7 +70,7 @@ export default function RegistrationPage() {
 
       const data = await res.json()
 
-      if (res.ok) {
+      if (res.ok) { 
         alert("Registration successful!")
         router.push("/login");
       } else {
@@ -220,7 +220,7 @@ export default function RegistrationPage() {
                 Create Account
               </Button>
 
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-border"></span>
                 </div>
@@ -258,7 +258,7 @@ export default function RegistrationPage() {
                   </svg>
                   GitHub
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             <div className="text-center text-sm text-muted-foreground">

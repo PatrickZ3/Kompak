@@ -57,7 +57,7 @@
     }, [boardId, refreshCount]);
 
     return (
-      <div className="flex flex-col overflow-hidden">
+      <div className="flex flex-col">
         <div className="flex justify-between items-center px-4 py-2 text-secondary-foreground font-bold">
           <Image src={logoSrc} alt="Kompak Logo" width={120} height={60} />
           <div className="absolute left-1/2 transform -translate-x-1/2 text-center">{title}</div>

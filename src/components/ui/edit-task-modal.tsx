@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { X, Save } from "lucide-react"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabaseClient"
+import {  Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -17,6 +17,7 @@ interface CardEditModalProps {
   onClose: () => void
   card?: {
     id: string
+    taskKey: string
     title: string
     description: string
     status: "To Do" | "In Progress" | "Done"
@@ -30,6 +31,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
   const [editedCard, setEditedCard] = useState(
     card || {
       id: "",
+      taskKey: "",
       title: "",
       description: "",
       status: "To Do",
@@ -48,9 +50,48 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
     onClose()
   }
 
+  useEffect(() => {
+    if (!card?.id) return;
+  
+    const fetchTaskDetails = async () => {
+      const { data, error } = await supabase
+        .from("Task")
+        .select("*")
+        .eq("id", card.id)
+        .single();
+  
+      if (error) {
+        console.error("❌ Failed to fetch task:", error);
+        return;
+      }
+  
+      // Map Supabase response into the modal's format
+      setEditedCard({
+        id: data.id.toString(),
+        taskKey: data.taskKey,
+        title: data.title,
+        description: data.description,
+        status:
+          data.status === "TODO"
+            ? "To Do"
+            : data.status === "IN_PROGRESS"
+            ? "In Progress"
+            : "Done",
+        priority:
+          data.priority.charAt(0).toUpperCase() +
+          data.priority.slice(1).toLowerCase(), // e.g. "LOW" → "Low"
+        date: data.dateCreated?.split("T")[0],
+      });
+    };
+  
+    fetchTaskDetails();
+  }, [card?.id]);
+  
+
   return (
+    
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] z-[1000]" style={{ position: "fixed" }}>
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle>Edit Card</DialogTitle>
           
@@ -60,8 +101,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
             <Label htmlFor="id">ID</Label>
             <Input
               id="id"
-              value={editedCard.id}
-              onChange={(e) => handleChange("id", e.target.value)}
+              value={editedCard.taskKey}
               placeholder="AO-1"
               disabled={!!card}
             />
@@ -106,7 +146,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
           <div className="space-y-2">
             <Label className="text-sm text-muted-foreground">Priority</Label>
                         <RadioGroup
-                            value={editedCard.priority}
+                            value={editedCard.priority.toLowerCase()}
                             onValueChange={(value) => handleChange("priority", value)}
                             className="flex items-center gap-4"
                         >

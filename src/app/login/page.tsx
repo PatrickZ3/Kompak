@@ -135,7 +135,7 @@ export default function LoginPage() {
                                 <LogIn className="mr-2 h-4 w-4" />
                                 Sign In
                             </Button>
-                            <div className="relative">
+                            {/* <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
                                     <span className="w-full border-t border-border"></span>
                                 </div>
@@ -160,7 +160,7 @@ export default function LoginPage() {
                                     </svg>
                                     GitHub
                                 </Button>
-                            </div>
+                            </div> */}
                         </form>
                         <div className="text-center text-sm text-muted-foreground">
                             Don&apos;t have an account?{" "}

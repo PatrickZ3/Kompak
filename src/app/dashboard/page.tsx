@@ -249,14 +249,14 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="relative hidden md:block">
+            {/* <div className="relative hidden md:block">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search..."
                 className="w-64 pl-8 text-sm text-secondary-foreground placeholder:text-muted-foreground"
               />
-            </div>
+            </div> */}
             <ModeToggle />
 
           </div>
@@ -364,10 +364,10 @@ export default function Dashboard() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 bg-card text-secondary-foreground">
-                  <DropdownMenuItem className="flex items-center hover:bg-muted">
+                  {/* <DropdownMenuItem className="flex items-center hover:bg-muted">
                     <User className="mr-2 h-4 w-4" />
                     <span>Profile</span>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                   <DropdownMenuItem
                     className="flex items-center text-red-500 hover:bg-muted"
                     onClick={async () => {

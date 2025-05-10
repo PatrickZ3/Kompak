@@ -61,8 +61,8 @@
         />
         <SidebarInset>
           {activeView === "Board" && <Board boardId={id} refreshCount={refreshCount}/>}
-          {activeView === "Timeline" && <Timeline />}
-          {activeView === "Team" && <Team />}
+          {/* {activeView === "Timeline" && <Timeline />}
+          {activeView === "Team" && <Team />} */}
         </SidebarInset>
       </SidebarProvider>
     );
