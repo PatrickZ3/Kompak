@@ -91,7 +91,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
   return (
     
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] z-[1000]" style={{ position: "fixed" }}>
+      <DialogContent className="sm:max-w-[500px] z-[1000]">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle>Edit Card</DialogTitle>
           
@@ -132,10 +132,10 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
             <Select value={editedCard.status} onValueChange={(value) => handleChange("status", value)}>
-              <SelectTrigger>
+              <SelectTrigger className="cursor-pointer">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="cursor-pointer z-[1100]" side="bottom" align="start" position="popper">
                 <SelectItem value="To Do">To Do</SelectItem>
                 <SelectItem value="In Progress">In Progress</SelectItem>
                 <SelectItem value="Done">Done</SelectItem>
@@ -151,19 +151,19 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
                             className="flex items-center gap-4"
                         >
                             <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="low" id="low" className="border-gray-600 text-green-500" />
+                                <RadioGroupItem value="low" id="low" className="border-gray-600 text-green-500 cursor-pointer" />
                                 <Label htmlFor="low" className="text-green-500 text-xs bg-green-500/20 px-2 py-1 rounded">
                                     Low
                                 </Label>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="medium" id="medium" className="border-gray-600 text-yellow-500" />
+                                <RadioGroupItem value="medium" id="medium" className="border-gray-600 text-yellow-500 cursor-pointer" />
                                 <Label htmlFor="medium" className="text-yellow-500 text-xs bg-yellow-500/20 px-2 py-1 rounded">
                                     Medium
                                 </Label>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="high" id="high" className="border-gray-600 text-red-500" />
+                                <RadioGroupItem value="high" id="high" className="border-gray-600 text-red-500 cursor-pointer" />
                                 <Label htmlFor="high" className="text-red-500 text-xs bg-red-500/20 px-2 py-1 rounded">
                                     High
                                 </Label>
@@ -176,6 +176,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
             <Input
               id="date"
               type="date"
+              className="cursor-pointer"
               value={editedCard.date}
               onChange={(e) => handleChange("date", e.target.value)}
             />

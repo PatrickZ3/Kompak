@@ -399,9 +399,9 @@ export default function HomePage() {
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Kompak. All rights reserved.</p>
           </div>
           <div className="flex justify-end">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-secondary-foreground">
+            {/* <Link href="#" className="text-sm text-muted-foreground hover:text-secondary-foreground">
               Contact
-            </Link>
+            </Link> */}
           </div>
         </div>
       </footer>
