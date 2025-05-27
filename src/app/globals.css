@@ -121,6 +121,11 @@
   }
 }
 
+/* Always allow pointer events on body, even when Radix Dialog is open */
+body[style*="pointer-events: none"] {
+  pointer-events: auto !important;
+}
+
 .truncate-2-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2; 
