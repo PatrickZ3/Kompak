@@ -27,11 +27,11 @@ import { supabase } from "@/lib/supabaseClient"
 
 const data = {
   navMain: [
-    {
-      title: "Board",
-      url: "#",
-      icon: IconDashboard,
-    },
+    // {
+    //   title: "Board",
+    //   url: "#",
+    //   icon: IconDashboard,
+    // },
     // {
     //   title: "Timeline",
     //   url: "#",
