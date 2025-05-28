@@ -3,8 +3,6 @@
 import {
   IconDotsVertical,
   IconLogout,
-  IconNotification,
-  IconUserCircle,
 } from "@tabler/icons-react"
 
 import {
@@ -15,7 +13,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -27,6 +24,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+
+import { supabase } from "@/lib/supabaseClient"
 
 function getInitials(name: string): string {
   return name
@@ -102,7 +101,12 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup> */}
-            <DropdownMenuItem className="cursor-pointer ">
+            <DropdownMenuItem className="cursor-pointer "
+             onClick={async () => {
+                                  await supabase.auth.signOut()
+                                  window.location.href = "/"
+                                }}
+                                >
               <IconLogout />
               Log out
             </DropdownMenuItem>

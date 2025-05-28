@@ -162,12 +162,7 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
                   >
                     {story.priority}
                   </Prioritybadge>
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={story.user.avatar} alt={story.user.name} />
-                    <AvatarFallback className="rounded-2xl bg-primary text-primary-foreground">
-                      CN
-                    </AvatarFallback>
-                  </Avatar>
+                 
                 </div>
               </CardFooter>
             </Card>

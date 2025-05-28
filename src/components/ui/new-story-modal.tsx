@@ -164,19 +164,7 @@ export function NewStoryModal({
                         </RadioGroup>
                     </div>
 
-                    {/* Assignee */}
-                    <div className="space-y-2">
-                        <Label className="text-sm text-muted-foreground">Assignee</Label>
-                        <div className="flex items-center gap-2 p-2 rounded bg-[#2a2a2a] border border-gray-700">
-                            <Avatar className="h-8 w-8">
-                                <AvatarImage src="/avatars/shadcn.jpg" />
-                                <AvatarFallback className="bg-gray-700 text-gray-300">
-                                    <User size={16} />
-                                </AvatarFallback>
-                            </Avatar>
-                            <span className="text-sm text-gray-300">Assign to me</span>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 {/* Footer */}
