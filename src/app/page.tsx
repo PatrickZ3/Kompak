@@ -34,6 +34,12 @@ export default function HomePage() {
           <nav className="hidden w-2/4 items-center justify-center md:flex">
             <div className="flex items-center gap-8">
               <Link
+                href="#kompak"
+                className="text-sm font-medium text-muted-foreground hover:text-secondary-foreground transition-colors"
+              >
+                Kompak
+              </Link>
+              <Link
                 href="#features"
                 className="text-sm font-medium text-muted-foreground hover:text-secondary-foreground transition-colors"
               >
@@ -45,12 +51,7 @@ export default function HomePage() {
               >
                 Tech Stack
               </Link>
-              <Link
-                href="/dashboard"
-                className="text-sm font-medium text-muted-foreground hover:text-secondary-foreground transition-colors"
-              >
-                Dashboard
-              </Link>
+              
             </div>
           </nav>
 
@@ -84,6 +85,14 @@ export default function HomePage() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 top-16 z-30 bg-background md:hidden">
           <nav className="container flex flex-col gap-4 p-4">
+             <Link
+              href="#kompak"
+              className="flex items-center justify-between rounded-md p-2 text-secondary-foreground hover:bg-muted"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Kompak
+              <ArrowRight className="h-4 w-4" />
+            </Link>
             <Link
               href="#features"
               className="flex items-center justify-between rounded-md p-2 text-secondary-foreground hover:bg-muted"
@@ -100,14 +109,7 @@ export default function HomePage() {
               Tech Stack
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              href="/dashboard"
-              className="flex items-center justify-between rounded-md p-2 text-secondary-foreground hover:bg-muted"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Dashboard
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          
             <div className="mt-4 flex flex-col gap-2">
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="outline" className="w-full">
@@ -124,12 +126,12 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 flex flex-col items-center justify-center">
+        <section id="kompak" className="w-full py-12 md:py-24 lg:py-32 flex flex-col items-center justify-center">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-secondary-foreground">
+                  <h1  className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-secondary-foreground">
                     Kompak
                   </h1>
                   <p className="text-xl text-muted-foreground">
@@ -203,7 +205,7 @@ export default function HomePage() {
                   Everything you need to manage projects
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Kompak provides all the tools you need to organize, track, and complete your projects efficiently.
+                  Kompak provides all the tools you need to organize, track and complete your projects efficiently.
                 </p>
               </div>
             </div>
@@ -214,34 +216,18 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-xl font-bold text-secondary-foreground">Task Management</h3>
                 <p className="text-muted-foreground">
-                  Create, assign, and track tasks with ease. Set priorities and deadlines to stay on schedule.
+                  Create and track tasks with ease. Set priorities and deadlines to stay on schedule.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border border-border bg-card p-6 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                  <Users className="h-8 w-8 text-red-500" />
-                </div>
-                <h3 className="text-xl font-bold text-secondary-foreground">Team Collaboration</h3>
-                <p className="text-muted-foreground">
-                  Work together seamlessly with your team. Share updates, files, and feedback in real-time.
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border border-border bg-card p-6 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                  <BarChart3 className="h-8 w-8 text-red-500" />
-                </div>
-                <h3 className="text-xl font-bold text-secondary-foreground">Progress Tracking</h3>
-                <p className="text-muted-foreground">
-                  Monitor project progress with visual dashboards and detailed reports to keep stakeholders informed.
-                </p>
-              </div>
+              
+              
               <div className="flex flex-col items-center space-y-2 rounded-lg border border-border bg-card p-6 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
                   <Clock className="h-8 w-8 text-red-500" />
                 </div>
-                <h3 className="text-xl font-bold text-secondary-foreground">Time Management</h3>
+                <h3 className="text-xl font-bold text-secondary-foreground">Deadline Tracking</h3>
                 <p className="text-muted-foreground">
-                  Track time spent on tasks and projects. Analyze productivity and optimize your workflow.
+                  Keep track of task due dates and ensure nothing slips through the cracks. Know exactly what’s due and what’s done.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 rounded-lg border border-border bg-card p-6 text-center md:col-span-2 lg:col-span-1">
@@ -271,7 +257,7 @@ export default function HomePage() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-secondary-foreground">Kompak Boards</h3>
+                <h3 className="text-xl font-bold text-secondary-foreground">Boards</h3>
                 <p className="text-muted-foreground">
                   Visualize your workflow with customizable boards. Drag and drop tasks to update their status.
                 </p>

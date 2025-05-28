@@ -195,7 +195,7 @@ export default function RegistrationPage() {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-2">
+              {/* <div className="flex items-start space-x-2">
                 <Checkbox
                   id="terms"
                   className="mt-1 border-border data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
@@ -213,7 +213,7 @@ export default function RegistrationPage() {
                     Privacy Policy
                   </Link>
                 </label>
-              </div>
+              </div> */}
 
               <Button onClick={handleRegister} className="w-full bg-red-500 text-primary-foreground hover:bg-red-600">
                 <UserPlus className="mr-2 h-4 w-4" />

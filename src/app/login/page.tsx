@@ -77,7 +77,7 @@ export default function LoginPage() {
                         </div>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-primary-foreground">
+                                <Label htmlFor="email" className="text-secondary-foreground">
                                     Email
                                 </Label>
                                 <Input
@@ -92,12 +92,12 @@ export default function LoginPage() {
                             </div>
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <Label htmlFor="password" className="text-primary-foreground">
+                                    <Label htmlFor="password" className="text-secondary-foreground">
                                         Password
                                     </Label>
-                                    <Link href="#" className="text-xs text-muted-foreground hover:text-secondary-foreground">
+                                    {/* <Link href="#" className="text-xs text-muted-foreground hover:text-secondary-foreground">
                                         Forgot password?
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 <div className="relative">
                                     <Input
@@ -118,7 +118,7 @@ export default function LoginPage() {
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            {/* <div className="flex items-center space-x-2">
                                 <Checkbox
                                     id="remember"
                                     className="border-border data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground cursor-pointer"
@@ -129,7 +129,7 @@ export default function LoginPage() {
                                 >
                                     Remember me
                                 </label>
-                            </div>
+                            </div> */}
                             {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
                             <Button type="submit" className="w-full bg-red-500 text-primary-foreground hover:bg-red-600 cursor-pointer">
                                 <LogIn className="mr-2 h-4 w-4" />
