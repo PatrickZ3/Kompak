@@ -15,17 +15,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 interface CardEditModalProps {
   isOpen: boolean
   onClose: () => void
-  card?: {
-    id: string
-    taskKey: string
-    title: string
-    description: string
-    status: "To Do" | "In Progress" | "Done"
-    priority: "High" | "Medium" | "Low"
-    date?: string
-  }
-  onSave: (card: any) => void
+  card?: EditableCard
+  onSave: (card: EditableCard) => void
 }
+
+export type EditableCard = {
+  id: string
+  taskKey: string
+  title: string
+  description: string
+  status: "To Do" | "In Progress" | "Done"
+  priority: "High" | "Medium" | "Low"
+  date: string
+}
+
 
 export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalProps) {
   const [editedCard, setEditedCard] = useState(
@@ -51,7 +54,14 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
 
     const originalStatus = card?.status;
 
-    const updateData: Record<string, any>  = {
+    const updateData: {
+      title: string
+      description: string
+      status: string
+      priority: string
+      dateCreated: string
+      dateFinish?: string | null
+    } = {
       title: editedCard.title,
       description: editedCard.description,
       status:
@@ -82,7 +92,7 @@ export function CardEditModal({ isOpen, onClose, card, onSave }: CardEditModalPr
       return
     }
 
-    onSave(editedCard)
+    onSave(editedCard as EditableCard)
     onClose()
   }
 

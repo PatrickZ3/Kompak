@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { supabase } from "@/lib/supabaseClient"
-import { Plus, Search, MoreVertical, Edit, Trash2 } from "lucide-react"
+import { Plus, MoreVertical, Edit, Trash2 } from "lucide-react"
 import { ModeToggle } from "@/components/ModeToggle"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, LogOut } from "lucide-react"
+import { LogOut } from "lucide-react"
 import {
   Dialog,
   DialogContent,

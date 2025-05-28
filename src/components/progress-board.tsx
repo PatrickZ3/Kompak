@@ -1,7 +1,6 @@
 "use client"
 import React from "react";
 import StoryCards, { Story } from "./story-cards";
-import { IconPlus } from "@tabler/icons-react";
 import { useDroppable } from "@dnd-kit/core"
 
 

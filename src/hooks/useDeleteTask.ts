@@ -12,7 +12,7 @@ export const useDeleteTask = () => {
 
   const deleteTask = async (taskId: number) => {
     // console.log("🧨 Trying to delete task with ID:", taskId)
-    const { data, error } = await supabase.from("Task").delete().eq("id", taskId)
+    const { error } = await supabase.from("Task").delete().eq("id", taskId)
 
     // console.log("🔍 Supabase returned:", { data, error })
 

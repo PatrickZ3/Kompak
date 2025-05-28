@@ -3,10 +3,6 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import {
-  IconClockHour4,
-  IconDashboard,
-  IconSettings,
-  IconUsers,
   IconArrowLeft
 } from "@tabler/icons-react"
 
@@ -56,7 +52,7 @@ const data = {
 export function AppSidebar({
   activeView,
   onNavigate,
-  boardTitle = "Untitled Project",
+  boardTitle,
   boardId,
   onRefreshTasks,
   ...props
@@ -108,6 +104,9 @@ export function AppSidebar({
             </SidebarMenuButton>
 
           </SidebarMenuItem>
+          <div className="px-3 py-2 text-muted-foreground text-xs font-semibold uppercase">
+            {boardTitle}
+          </div>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>

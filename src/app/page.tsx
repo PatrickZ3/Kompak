@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ModeToggle } from "@/components/ModeToggle"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, Users, BarChart3, Clock, Menu, X, Code, Database, Layers } from "lucide-react"
+import { ArrowRight, Calendar, Clock, Menu, X, Code, Database, Layers } from "lucide-react"
 
 export default function HomePage() {
   const { resolvedTheme } = useTheme()

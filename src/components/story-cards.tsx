@@ -18,10 +18,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar"
 import { useDraggable } from "@dnd-kit/core"
 import { useDeleteTask } from "@/hooks/useDeleteTask"
 import { CardEditModal } from "@/components/ui/edit-task-modal"
+import { type EditableCard } from "./ui/edit-task-modal"
 
 export interface Story {
   id: number
@@ -47,7 +47,7 @@ interface StoryCardsProps {
 export default function StoryCards({ stories, setUserStories }: StoryCardsProps) {
   const { deleteTask } = useDeleteTask()
   const [isEditModalOpen, setEditModalOpen] = React.useState(false)
-  const [selectedCard, setSelectedCard] = React.useState<any | null>(null)
+  const [selectedCard, setSelectedCard] = React.useState<EditableCard | null>(null)
 
   const handleDelete = async (storyId: number) => {
     const success = await deleteTask(storyId)
@@ -56,18 +56,18 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
     }
   }
 
-  const handleSaveCard = (updatedCard: any) => {
+  const handleSaveCard = (updatedCard: EditableCard) => {
     setUserStories(prev =>
       prev.map(story =>
         story.id === Number(updatedCard.id)
           ? {
-              ...story,
-              story: updatedCard.title,
-              description: updatedCard.description,
-              status: updatedCard.status,
-              priority: updatedCard.priority,
-              time: new Date(updatedCard.date),
-            }
+            ...story,
+            story: updatedCard.title,
+            description: updatedCard.description,
+            status: updatedCard.status,
+            priority: updatedCard.priority,
+            time: new Date(updatedCard.date),
+          }
           : story
       )
     )
@@ -120,8 +120,8 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
                           title: story.story,
                           taskKey: story.storyID,
                           description: story.description,
-                          status: story.status,
-                          priority: story.priority,
+                          status: story.status as "To Do" | "In Progress" | "Done",
+                          priority: story.priority as "High" | "Medium" | "Low",
                           date: story.time
                             ? new Date(story.time).toISOString().split("T")[0]
                             : new Date().toISOString().split("T")[0],
@@ -162,7 +162,7 @@ export default function StoryCards({ stories, setUserStories }: StoryCardsProps)
                   >
                     {story.priority}
                   </Prioritybadge>
-                 
+
                 </div>
               </CardFooter>
             </Card>

@@ -8,7 +8,6 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 import { supabase } from "@/lib/supabaseClient";
