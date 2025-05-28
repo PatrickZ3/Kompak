@@ -1,2 +1,4 @@
+# .dockerignore
+# .env
 node_modules
-.env 
+.next
