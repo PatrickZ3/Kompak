@@ -2,22 +2,55 @@
 "use client"
 import { supabase } from "@/lib/supabaseClient"
 
-let initialized = false
-
 export const useDeleteTask = () => {
-  if (!initialized) {
-    // console.log("📦 useDeleteTask initialized")
-    initialized = true
-  }
-
   const deleteTask = async (taskId: number) => {
-    // console.log("🧨 Trying to delete task with ID:", taskId)
-    const { error } = await supabase.from("Task").delete().eq("id", taskId)
+    // Step 1: Get the task to find its boardId
+    const { data: taskData, error: fetchError } = await supabase
+      .from("Task")
+      .select("boardId")
+      .eq("id", taskId)
+      .single()
 
-    // console.log("🔍 Supabase returned:", { data, error })
+    if (fetchError || !taskData) {
+      console.error("❌ Failed to fetch task before deletion:", fetchError)
+      return false
+    }
 
-    if (error) {
-    //   console.error("❌ Supabase delete error:", error.message)
+    const boardId = taskData.boardId
+
+    // Step 2: Fetch current taskCounter
+    const { data: boardData, error: boardFetchError } = await supabase
+      .from("Board")
+      .select("taskCounter")
+      .eq("id", boardId)
+      .single()
+
+    if (boardFetchError || !boardData) {
+      console.error("❌ Failed to fetch board:", boardFetchError)
+      return false
+    }
+
+    const currentCount = boardData.taskCounter
+
+    // Step 3: Delete the task
+    const { error: deleteError } = await supabase
+      .from("Task")
+      .delete()
+      .eq("id", taskId)
+
+    if (deleteError) {
+      console.error("❌ Error deleting task:", deleteError)
+      return false
+    }
+
+    // Step 4: Manually decrement taskCounter
+    const { error: updateError } = await supabase
+      .from("Board")
+      .update({ taskCounter: Math.max(0, currentCount - 1) }) // prevent negative
+      .eq("id", boardId)
+
+    if (updateError) {
+      console.error("❌ Error updating taskCounter:", updateError)
       return false
     }
 
