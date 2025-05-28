@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kompak
 
-## Getting Started
+Kompak is a sleek, minimalistic project management tool inspired by Jira — designed to help you manage tasks, stories, and boards with simplicity and speed.
 
-First, run the development server:
+## 🚀 Features
+
+- 🔐 Authentication with Supabase
+- 🧩 Drag & drop task management
+- 🗂 Create and manage boards and tasks
+- 🎨 Dark mode UI
+- 📊 Task priority and status indicators
+- 📅 Auto-timestamping of task updates
+- ⚙️ Board editing and story editing modals
+
+---
+
+## 📸 Preview
+
+### 🏠 Homepage
+![Homepage](./assets/homepage.png)  
+The homepage introduces Kompak with call-to-action buttons and a hero visual of the app's interface.
+
+### 🔐 Login Page
+![Login](./assets/loginpage.png)  
+Users can log in using their email and password. This is powered by Supabase Auth.
+
+### 📋 Dashboard (Board Overview)
+![Dashboard](./assets/dashboard.png)  
+Displays all boards created by the user, along with task counts and creation dates.
+
+### ✏️ Edit Task Modal
+![Edit Task](./assets/edit.png)  
+Edit or delete a task card, modify its priority, status, title, and description — all in a convenient modal interface.
+
+### 📌 Full Board View
+![Board View](./assets/board.png)  
+Organize tasks into columns: To Do, In Progress, and Done. Each task shows priority, status, and creation/finish dates. Tasks are draggable.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 15, React 19, Tailwind CSS, Radix UI
+- **Auth & Backend:** Supabase
+- **Drag & Drop:** `@dnd-kit`
+- **Other Tools:** Prisma, PostgreSQL, Lucide Icons, Vercel Deployment
+
+---
+
+## 📦 Installation
 
 ```bash
+git clone https://github.com/PatrickZ3/Kompak.git
+cd Kompak
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
